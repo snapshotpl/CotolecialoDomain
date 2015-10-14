@@ -54,5 +54,4 @@ class Play
     {
         return $this->radioStation;
     }
-
 }

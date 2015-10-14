@@ -32,9 +32,16 @@ class SyncService
         if (!$record instanceof SyncRecord) {
             return;
         }
+        $radioStation = $record->getRadioStation();
         $song = $this->songService->getSong($record->getSongName(), $record->getArtistName());
 
-        $play = new Play($song, $record->getRadioStation(), $record->getDateTime());
+        $lastPlay = $this->playRepository->findLastByRadioStation($radioStation);
+
+        if ($lastPlay !== null && $lastPlay->getSong()->isEqual($song)) {
+            return $lastPlay;
+        }
+
+        $play = new Play($song, $radioStation, $record->getDateTime());
 
         $this->playRepository->add($play);
 

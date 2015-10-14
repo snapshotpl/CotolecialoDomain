@@ -45,4 +45,9 @@ class Song
     {
         return $this->artist;
     }
+
+    public function isEqual(Song $song)
+    {
+        return $this->getId() !== $song->getId();
+    }
 }
